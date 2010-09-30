@@ -1,4 +1,4 @@
-require 'lib/console_tweet'
+require 'console_tweet/cli'
 
 module ConsoleTweet
 
