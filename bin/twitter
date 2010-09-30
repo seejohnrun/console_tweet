@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
-require File.dirname(__FILE__) + '/../lib/console_tweet'
+
+require 'rubygems'
+require 'console_tweet'
 
 console = ConsoleTweet::CLI.new
 console.start

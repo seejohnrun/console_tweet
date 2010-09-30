@@ -1,5 +1,5 @@
-module ConsoleTweet
+require 'lib/console_tweet'
 
-  require 'lib/console_tweet/cli'
+module ConsoleTweet
 
 end
