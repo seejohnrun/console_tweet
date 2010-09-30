@@ -9,4 +9,4 @@ $ twitter status
 
 # Tweet Something!
 $ twitter tweet "something"
-% endhighlight %}
+{% endhighlight %}
