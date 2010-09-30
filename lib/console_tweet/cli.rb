@@ -6,23 +6,30 @@ module ConsoleTweet
     require 'twitter_oauth'
     require 'yaml'
 
+    # The allowed API methods
     AllowedMethods = [:setup, :help, :status, :tweet]
+
+    # Twitter API details
     ConsumerKey = 'MvVdCyl6xCVtEUVdcp4rw'
     ConsumerSecret = '3xD0oy47WhWYUIBCU6QzcIBqsrAAL3KnYWKhd6ALk2k'
 
+    # Where to store the .twitter file
     TOKEN_PATH = File.expand_path('~/.twitter')
 
+    # Some colors used in the output
     NameColor = "\e[33m"
     CommandColor = "\e[36m"
     DefaultColor = "\e[0m"
-    NoteColor = "\e[37m"
     ErrorColor = "\e[31m"
 
+    # By default there are no arguments and no commands
     def initialize
       @commands = []
       @arguments = {}
     end
 
+    # Get the commands from the command line
+    # (Somewhat primitive, will be expanded) TODO
     def start
       ARGV.each do |arg|
         unless arg.index('-') === 0 
@@ -50,6 +57,7 @@ module ConsoleTweet
       end
     end
 
+    # Send a tweet for the user
     def tweet(*args)
       load_default_token
       return failtown("Unauthorized, re-run setup!") unless @client.authorized?
@@ -57,6 +65,7 @@ module ConsoleTweet
       puts "Tweet Posted!"
     end
 
+    # Get the user's most recent status
     def status(*args)
       load_default_token
       return failtown("Unauthorized, re-run setup!") unless @client.authorized?
@@ -65,6 +74,7 @@ module ConsoleTweet
       puts "#{user['name']} (at #{status['created_at']}) #{status['text']}"
     end
 
+    # Get the access token for the user and save it
     def setup(*args)
       # Keep trying to get the access token
       until @access_token = self.get_access_token
@@ -76,32 +86,37 @@ module ConsoleTweet
       save_tokens(tokens)
     end
 
+    # Display help section
     def help(*args)
       puts "#{NameColor}console-tweet#{DefaultColor} by John Crepezzi <john.crepezzi@gmail.com>"
-      puts 'github: http://github.com/seejohnrun/console-tweet'
+      puts 'http://github.com/seejohnrun/console-tweet'
       puts
       puts "#{CommandColor}twitter setup#{DefaultColor} Setup your account"
       puts "#{CommandColor}twitter status#{DefaultColor} Get your most recent status"
       puts "#{CommandColor}twitter tweet \"Hello World\"#{DefaultColor} Send out a tweet"
     end
 
+    # Show error message with help below it
     def failtown(message = nil)
       puts "#{ErrorColor}Uh-oh! #{message}#{DefaultColor}\n" if message
       help
     end
 
+    # Catch other methods
     def method_missing(command, *arguments)
       failtown "Unknown command: #{command}\n"
     end
 
     private
 
+    # Load the default token from the ~/.twitter file
     def load_default_token
       tokens = load_tokens
       default_hash = tokens[:default]
       @client = TwitterOAuth::Client.new(:consumer_key => ConsumerKey, :consumer_secret => ConsumerSecret, :token => default_hash[:token], :secret => default_hash[:secret])
     end
 
+    # Load tokens from the ~/.twitter file
     def load_tokens
       f = File.open(TOKEN_PATH, 'r')
       tokens = YAML::load(f)
@@ -109,12 +124,14 @@ module ConsoleTweet
       tokens
     end
 
+    # Save the set of tokens to the ~/.twitter file
     def save_tokens(tokens)
       f = File.open(TOKEN_PATH, 'w')
       YAML::dump(tokens, f)
       f.close
     end
 
+    # Get input from STDIN, strip it and cut the newline off the end
     def self.get_input
       STDIN.gets.strip.chomp
     end
