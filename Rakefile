@@ -10,7 +10,7 @@ task :release => :build do
   system "git tag v#{ConsoleTweet::VERSION}"
   system "git push origin --tags"
   # push the gem
-  system "gem push ice_cube-#{ConsoleTweet::VERSION}.gem"
+  system "gem push console-tweet-#{ConsoleTweet::VERSION}.gem"
 end
  
 Spec::Rake::SpecTask.new(:test) do |t|
