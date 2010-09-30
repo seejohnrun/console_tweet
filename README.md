@@ -1,13 +1,13 @@
 ## console-tweet
 
-Tweet from the console (OAuth compatible).
+Tweet from the console (OAuth compatible).  
 Meant to be as simple as possible.
 
 ---
 
 ### installation
 
-    gem install console-tweet
+    gem install console_tweet
 
 ---
 
