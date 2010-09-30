@@ -33,6 +33,7 @@ Meant to be as simple as possible.
 
 * View tweets of other users
 * Support for multiple accounts
+* URL Shortening support
 
 ---
 
