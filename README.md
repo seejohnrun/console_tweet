@@ -1,6 +1,6 @@
 ## console-tweet
 
-Tweet from the console (OAuth compatible).  
+Tweet from the console (yes it uses OAuth).  
 Meant to be as simple as possible.
 
 ---
