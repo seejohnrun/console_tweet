@@ -19,7 +19,11 @@ Meant to be as simple as possible.
 
 ### send a tweet
  
-    twitter tweet "hello world"
+    $ twitter tweet "hello world"
+    $ echo 'hello world' | twitter tweet
+    
+    # or to be prompted, use:
+    $ twitter tweet
 
 ---
 

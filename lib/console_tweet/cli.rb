@@ -60,11 +60,20 @@ module ConsoleTweet
     # Send a tweet for the user
     def tweet(*args)
       load_default_token
-      tweet_text = args.join(' ')
+      # get it from them directly
+      tweet_text = args.join(' ').strip
+      # or let them append / or pipe
+      tweet_text += (tweet_text.empty? ? '' : ' ') + STDIN.read unless STDIN.tty?
+      # or let them get prompted for it
+      if tweet_text.empty?
+        print 'Tweet (Press return to finish): '
+        tweet_text = STDIN.gets.strip
+      end
       return failtown("Empty Tweet") if tweet_text.empty?
       return failtown("Tweet is too long!") if tweet_text.size > 140
       return failtown("Unauthorized, re-run setup!") unless @client.authorized?
-      @client.update(args.join(' '))
+      # actually post it
+      @client.update(tweet_text)
       puts "Tweet Posted!"
     end
 
