@@ -61,11 +61,23 @@ module ConsoleTweet
     def timeline(*args)
       load_default_token
       return failtown("Unauthorized, re-run setup!") unless @client.authorized?
-      home_timeline = @client.home_timeline
-      home_timeline.reverse! # We want the latest tweets at the bottom on a CLI
-      home_timeline.each do |tweet|
-        puts "#{tweet['text']}\n\t#{NameColor}#{tweet['user']['name']}#{DefaultColor}\n\n"
+      
+      # Only send since_id to @client if it's not nil
+      home_timeline = since_id ? @client.home_timeline(:since_id => since_id) : @client.home_timeline
+      
+      if home_timeline.any?
+        # We want the latest tweets at the bottom on a CLI
+        home_timeline.reverse!
+        
+        # Print each tweet, with user name on next line
+        home_timeline.each do |tweet|
+          puts "#{tweet['text']}\n\t#{NameColor}#{tweet['user']['name']}#{DefaultColor}\n\n"
+        end
+        
+        # Save the last id as since_id
+        self.since_id = home_timeline.last['id']
       end
+      
     end
     
     # Send a tweet for the user
@@ -157,6 +169,18 @@ module ConsoleTweet
     # Get input from STDIN, strip it and cut the newline off the end
     def self.get_input
       STDIN.gets.strip.chomp
+    end
+    
+    # Getter for since_id in ~/.twitter file
+    def since_id
+      load_tokens[:since_id]
+    end
+
+    # Setter for since_id in ~/.twitter file
+    def since_id=(id)
+      tokens = load_tokens
+      tokens[:since_id] = id
+      save_tokens(tokens)
     end
 
   end
