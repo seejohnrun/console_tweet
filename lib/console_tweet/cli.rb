@@ -7,7 +7,7 @@ module ConsoleTweet
     require 'yaml'
 
     # The allowed API methods
-    AllowedMethods = [:setup, :help, :status, :tweet]
+    AllowedMethods = [:setup, :help, :status, :tweet, :timeline]
 
     # Twitter API details
     ConsumerKey = 'MvVdCyl6xCVtEUVdcp4rw'
@@ -56,7 +56,18 @@ module ConsoleTweet
         false # Didn't get an access token
       end
     end
-
+    
+    # Display the user's timeline
+    def timeline(*args)
+      load_default_token
+      return failtown("Unauthorized, re-run setup!") unless @client.authorized?
+      friends_timeline = @client.friends_timeline
+      friends_timeline.reverse! # We want the latest tweets at the bottom on a CLI
+      friends_timeline.each do |tweet|
+        puts "#{tweet['text']}\n\t#{NameColor}#{tweet['user']['name']}#{DefaultColor}\n\n"
+      end
+    end
+    
     # Send a tweet for the user
     def tweet(*args)
       load_default_token
