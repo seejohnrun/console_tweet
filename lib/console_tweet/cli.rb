@@ -61,9 +61,9 @@ module ConsoleTweet
     def timeline(*args)
       load_default_token
       return failtown("Unauthorized, re-run setup!") unless @client.authorized?
-      friends_timeline = @client.friends_timeline
-      friends_timeline.reverse! # We want the latest tweets at the bottom on a CLI
-      friends_timeline.each do |tweet|
+      home_timeline = @client.home_timeline
+      home_timeline.reverse! # We want the latest tweets at the bottom on a CLI
+      home_timeline.each do |tweet|
         puts "#{tweet['text']}\n\t#{NameColor}#{tweet['user']['name']}#{DefaultColor}\n\n"
       end
     end
