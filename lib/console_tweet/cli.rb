@@ -37,7 +37,7 @@ module ConsoleTweet
         end
       end
       # get the first command as the method, and the rest of the commands as args
-      method = @commands.empty? ? :help : @commands[0].to_sym
+      method = @commands.empty? ? :timeline : @commands[0].to_sym
       return method_missing(method) unless AllowedMethods.include?(method)
       self.send(method, @commands[1..@commands.size])
     end
