@@ -139,6 +139,7 @@ module ConsoleTweet
       puts
       puts "#{CommandColor}twitter setup#{DefaultColor} Setup your account"
       puts "#{CommandColor}twitter status#{DefaultColor} Get your most recent status"
+      puts "#{CommandColor}twitter timeline#{DefaultColor} See your timeline"
       puts "#{CommandColor}twitter tweet \"Hello World\"#{DefaultColor} Send out a tweet"
     end
 
