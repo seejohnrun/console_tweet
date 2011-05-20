@@ -126,6 +126,7 @@ module ConsoleTweet
       puts "#{NameColor}console-tweet#{DefaultColor} by John Crepezzi <john.crepezzi@gmail.com>"
       puts 'http://github.com/seejohnrun/console-tweet'
       puts
+      puts "#{CommandColor}twitter#{DefaultColor} View your timeline, since last view"
       puts "#{CommandColor}twitter setup#{DefaultColor} Setup your account"
       puts "#{CommandColor}twitter status#{DefaultColor} Get your most recent status"
       puts "#{CommandColor}twitter tweet \"Hello World\"#{DefaultColor} Send out a tweet"

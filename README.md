@@ -27,6 +27,10 @@ Meant to be as simple as possible.
 
 ---
 
+### view your timeline, since last view
+
+    twitter
+
 ### view most recent status
 
     twitter status
