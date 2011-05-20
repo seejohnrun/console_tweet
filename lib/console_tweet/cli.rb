@@ -36,8 +36,15 @@ module ConsoleTweet
           @commands << arg
         end
       end
-      # get the first command as the method, and the rest of the commands as args
-      method = @commands.empty? ? :timeline : @commands[0].to_sym
+      
+      if File.exists? TOKEN_PATH
+        # Show the timeline unless the user wants something else
+        method = @commands.empty? ? :timeline : @commands[0].to_sym
+      else
+        # If Token file doesn't exist, show help unless they're running setup
+        method = @commands[0] && @commands[0].to_sym == :setup ? :setup : :help
+      end
+      
       return method_missing(method) unless AllowedMethods.include?(method)
       self.send(method, @commands[1..@commands.size])
     end
