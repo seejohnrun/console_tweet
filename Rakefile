@@ -1,5 +1,5 @@
-require 'spec/rake/spectask'
-require 'lib/console_tweet/version'
+require 'rspec/core/rake_task'
+require File.dirname(__FILE__) + '/lib/console_tweet/version'
  
 task :build => :test do
   system "gem build console_tweet.gemspec"
@@ -14,12 +14,12 @@ task :release => :build do
 end
  
 Spec::Rake::SpecTask.new(:test) do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
+  t.pattern = 'spec/**/*_spec.rb'
   fail_on_error = true # be explicit
 end
  
 Spec::Rake::SpecTask.new(:rcov) do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
+  t.pattern = 'spec/**/*_spec.rb'
   t.rcov = true
   fail_on_error = true # be explicit
 end

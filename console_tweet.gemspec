@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'lib/console_tweet/version'
+require File.dirname(__FILE__) + '/lib/console_tweet/version'
 
 spec = Gem::Specification.new do |s|
   

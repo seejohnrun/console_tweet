@@ -60,7 +60,7 @@ module ConsoleTweet
     # Display the user's timeline
     def timeline(*args)
       load_default_token
-      return failtown("Unauthorized, re-run setup!") unless @client.authorized?
+      return failtown("Unauthorized, re-run setup!") unless @client && @client.authorized?
       
       # Only send since_id to @client if it's not nil
       home_timeline = since_id ? @client.home_timeline(:since_id => since_id) : @client.home_timeline
@@ -71,7 +71,7 @@ module ConsoleTweet
         
         # Print each tweet, with user name on next line
         home_timeline.each do |tweet|
-          puts "#{tweet['text']}\n\t#{NameColor}#{tweet['user']['name']}#{DefaultColor}\n\n"
+          puts "#{tweet['text']}\n#{NameColor}@#{tweet['user']['screen_name']} (#{tweet['user']['name']})#{DefaultColor}\n\n"
         end
         
         # Save the last id as since_id
@@ -94,7 +94,7 @@ module ConsoleTweet
       end
       return failtown("Empty Tweet") if tweet_text.empty?
       return failtown("Tweet is too long!") if tweet_text.size > 140
-      return failtown("Unauthorized, re-run setup!") unless @client.authorized?
+      return failtown("Unauthorized, re-run setup!") unless @client && @client.authorized?
       # actually post it
       @client.update(tweet_text)
       puts "Tweet Posted!"
@@ -103,7 +103,7 @@ module ConsoleTweet
     # Get the user's most recent status
     def status(*args)
       load_default_token
-      return failtown("Unauthorized, re-run setup!") unless @client.authorized?
+      return failtown("Unauthorized, re-run setup!") unless @client && @client.authorized?
       user = @client.info
       status = user['status']
       puts "#{user['name']} (at #{status['created_at']}) #{status['text']}"
@@ -146,17 +146,21 @@ module ConsoleTweet
 
     # Load the default token from the ~/.twitter file
     def load_default_token
-      tokens = load_tokens
-      default_hash = tokens[:default]
-      @client = TwitterOAuth::Client.new(:consumer_key => ConsumerKey, :consumer_secret => ConsumerSecret, :token => default_hash[:token], :secret => default_hash[:secret])
+      if tokens = load_tokens
+        default_hash = tokens[:default]
+        @client = TwitterOAuth::Client.new(:consumer_key => ConsumerKey, :consumer_secret => ConsumerSecret, :token => default_hash[:token], :secret => default_hash[:secret])
+        default_hash
+      end
     end
 
     # Load tokens from the ~/.twitter file
     def load_tokens
-      f = File.open(TOKEN_PATH, 'r')
-      tokens = YAML::load(f)
-      f.close
-      tokens
+      if File.exists?(TOKEN_PATH)
+        f = File.open(TOKEN_PATH, 'r')
+        tokens = YAML::load(f)
+        f.close
+        tokens
+      end
     end
 
     # Save the set of tokens to the ~/.twitter file
@@ -173,14 +177,14 @@ module ConsoleTweet
     
     # Getter for since_id in ~/.twitter file
     def since_id
-      load_tokens[:since_id]
+      load_default_token[:since_id]
     end
 
     # Setter for since_id in ~/.twitter file
     def since_id=(id)
-      tokens = load_tokens
+      tokens = load_default_token
       tokens[:since_id] = id
-      save_tokens(tokens)
+      save_tokens(:default => tokens)
     end
 
   end
