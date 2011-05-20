@@ -80,7 +80,9 @@ module ConsoleTweet
         
         # Print each tweet, with user name on next line
         home_timeline.each do |tweet|
-          puts "#{tweet['text']}\n\t#{NameColor}#{tweet['user']['name']}#{DefaultColor}\n\n"
+          puts "#{tweet['text']}"
+          puts "\t#{NameColor}#{tweet['user']['name']}#{DefaultColor}"
+          puts
         end
         
         # Save the last id as since_id
