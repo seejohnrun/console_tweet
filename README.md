@@ -48,6 +48,7 @@ Meant to be as simple as possible.
 ### Authors
 
 * John Crepezzi <john.crepezzi@gmail.com>
+* Justin Campbell
 
 ---
 
