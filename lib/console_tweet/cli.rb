@@ -55,6 +55,8 @@ module ConsoleTweet
       request_token = @client.request_token
       # ask the user to visit the auth url
       puts "To authenticate your client, visit the URL: #{request_token.authorize_url}"
+      # launch URL for the user
+      %x[open #{request_token.authorize_url}]
       # wait for the user to give us the PIN back
       print 'Enter PIN: '
       begin
