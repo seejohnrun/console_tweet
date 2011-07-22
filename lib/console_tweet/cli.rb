@@ -7,7 +7,7 @@ module ConsoleTweet
     require 'yaml'
 
     # The allowed API methods
-    AllowedMethods = [:setup, :help, :status, :tweet, :timeline]
+    AllowedMethods = [:setup, :help, :status, :tweet, :timeline, :show]
 
     # Twitter API details
     ConsumerKey = 'MvVdCyl6xCVtEUVdcp4rw'
@@ -100,6 +100,22 @@ module ConsoleTweet
       puts "Tweet Posted!"
     end
 
+    # Get 20 most recent statuses of user, or specified user
+    def show(args)
+      load_default_token
+
+      target_user=""
+      target_user=args[0] unless args.nil?
+
+      res = @client.user_timeline(:screen_name => target_user)
+
+      if res.include? 'error'
+        return failtown(" show :: #{res['error']}")
+      end
+        
+      print_tweets(res)
+    end
+
     # Get the user's most recent status
     def status(*args)
       load_default_token
@@ -188,6 +204,12 @@ module ConsoleTweet
       save_tokens(:default => tokens)
     end
 
+    # Standardized formating of timelines
+    def print_tweets(tweets)
+      tweets.reverse!
+      tweets.each do | tweet|
+        puts "#{tweet['text']}\n#{NameColor}@#{tweet['user']['screen_name']} (#{tweet['user']['name']})#{DefaultColor}\n\n"
+      end
+    end
   end
-
 end
