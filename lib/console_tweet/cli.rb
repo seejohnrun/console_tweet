@@ -106,7 +106,7 @@ module ConsoleTweet
       return failtown("Unauthorized, re-run setup!") unless @client && @client.authorized?
       user = @client.info
       status = user['status']
-      puts "#{user['name']} (at #{status['created_at']}) #{status['text']}"
+      puts "#{user['name']} (at #{status['created_at']}) #{status['text']}" unless status.nil?
     end
 
     # Get the access token for the user and save it
