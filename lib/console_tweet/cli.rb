@@ -66,18 +66,11 @@ module ConsoleTweet
       home_timeline = since_id ? @client.home_timeline(:since_id => since_id) : @client.home_timeline
       
       if home_timeline.any?
-        # We want the latest tweets at the bottom on a CLI
-        home_timeline.reverse!
-        
-        # Print each tweet, with user name on next line
-        home_timeline.each do |tweet|
-          puts "#{tweet['text']}\n#{NameColor}@#{tweet['user']['screen_name']} (#{tweet['user']['name']})#{DefaultColor}\n\n"
-        end
-        
+        print_tweets(home_timeline)
+
         # Save the last id as since_id
         self.since_id = home_timeline.last['id']
       end
-      
     end
     
     # Send a tweet for the user
