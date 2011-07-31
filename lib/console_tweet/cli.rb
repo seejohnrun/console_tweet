@@ -7,7 +7,7 @@ module ConsoleTweet
     require 'yaml'
 
     # The allowed API methods
-    AllowedMethods = [:setup, :help, :status, :tweet, :timeline]
+    AllowedMethods = [:setup, :help, :status, :tweet, :timeline, :show]
 
     # Twitter API details
     ConsumerKey = 'MvVdCyl6xCVtEUVdcp4rw'
@@ -61,23 +61,13 @@ module ConsoleTweet
     def timeline(*args)
       load_default_token
       return failtown("Unauthorized, re-run setup!") unless @client && @client.authorized?
-      
       # Only send since_id to @client if it's not nil
       home_timeline = since_id ? @client.home_timeline(:since_id => since_id) : @client.home_timeline
-      
       if home_timeline.any?
-        # We want the latest tweets at the bottom on a CLI
-        home_timeline.reverse!
-        
-        # Print each tweet, with user name on next line
-        home_timeline.each do |tweet|
-          puts "#{tweet['text']}\n#{NameColor}@#{tweet['user']['screen_name']} (#{tweet['user']['name']})#{DefaultColor}\n\n"
-        end
-        
+        print_tweets(home_timeline)
         # Save the last id as since_id
         self.since_id = home_timeline.last['id']
       end
-      
     end
     
     # Send a tweet for the user
@@ -100,13 +90,24 @@ module ConsoleTweet
       puts "Tweet Posted!"
     end
 
+    # Get 20 most recent statuses of user, or specified user
+    def show(args)
+      load_default_token
+      target_user = ''
+      target_user = args[0] unless args.nil?
+      # Get the timeline and print the tweets if we don't get an error
+      res = @client.user_timeline(:screen_name => target_user)
+      return failtown("show :: #{res['error']}") if res.include?('error')
+      print_tweets(res)
+    end
+
     # Get the user's most recent status
     def status(*args)
       load_default_token
       return failtown("Unauthorized, re-run setup!") unless @client && @client.authorized?
       user = @client.info
       status = user['status']
-      puts "#{user['name']} (at #{status['created_at']}) #{status['text']}"
+      puts "#{user['name']} (at #{status['created_at']}) #{status['text']}" unless status.nil?
     end
 
     # Get the access token for the user and save it
@@ -130,6 +131,7 @@ module ConsoleTweet
       puts "#{CommandColor}twitter setup#{DefaultColor} Setup your account"
       puts "#{CommandColor}twitter status#{DefaultColor} Get your most recent status"
       puts "#{CommandColor}twitter tweet \"Hello World\"#{DefaultColor} Send out a tweet"
+      puts "#{CommandColor}twitter show [username]#{DefaultColor} Show the timeline for a user"
     end
 
     # Show error message with help below it
@@ -186,6 +188,14 @@ module ConsoleTweet
       tokens = load_default_token
       tokens[:since_id] = id
       save_tokens(:default => tokens)
+    end
+
+    # Standardized formating of timelines
+    def print_tweets(tweets)
+      tweets.reverse!
+      tweets.each do |tweet|
+        puts "#{tweet['text']}\n#{NameColor}@#{tweet['user']['screen_name']} (#{tweet['user']['name']})#{DefaultColor}\n\n"
+      end
     end
 
   end
