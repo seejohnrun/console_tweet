@@ -92,12 +92,13 @@ module ConsoleTweet
 
     # Get 20 most recent statuses of user, or specified user
     def show(args)
-      load_default_token
-      target_user = ''
-      target_user = args[0] unless args.nil?
+      # If we have no user to get, use the timeline instead
+      return timeline(args) if args.nil? || args.count == 0
+      target_user = args[0]
       # Get the timeline and print the tweets if we don't get an error
+      load_default_token # for private tweets
       res = @client.user_timeline(:screen_name => target_user)
-      return failtown("show :: #{res['error']}") if res.include?('error')
+      return failtown("show :: #{res['error']}") if !res || res.include?('error')
       print_tweets(res)
     end
 
@@ -151,9 +152,14 @@ module ConsoleTweet
     def load_default_token
       if tokens = load_tokens
         default_hash = tokens[:default]
-        @client = TwitterOAuth::Client.new(:consumer_key => ConsumerKey, :consumer_secret => ConsumerSecret, :token => default_hash[:token], :secret => default_hash[:secret])
+        if default_hash[:token] && default_hash[:secret]
+          @client = TwitterOAuth::Client.new(:consumer_key => ConsumerKey, :consumer_secret => ConsumerSecret, :token => default_hash[:token], :secret => default_hash[:secret])
+        end
         default_hash
+      else
+        @client = TwitterOAuth::Client.new(:consumer_key => ConsumerKey, :consumer_secret => ConsumerSecret)
       end
+
     end
 
     # Load tokens from the ~/.twitter file
