@@ -39,7 +39,6 @@ Meant to be as simple as possible.
 
 ### Coming soon:
 
-* View tweets of other users
 * Support for multiple accounts
 * URL Shortening support
 
