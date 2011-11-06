@@ -35,6 +35,10 @@ Meant to be as simple as possible.
 
     twitter status
 
+### view the most recent replies / mentions
+
+    twitter replies
+
 ---
 
 ### Coming soon:
