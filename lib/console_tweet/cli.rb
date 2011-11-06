@@ -7,7 +7,7 @@ module ConsoleTweet
     require 'yaml'
 
     # The allowed API methods
-    AllowedMethods = [:setup, :help, :status, :tweet, :timeline, :show]
+    AllowedMethods = [:setup, :help, :status, :tweet, :timeline, :show, :replies]
 
     # Twitter API details
     ConsumerKey = 'MvVdCyl6xCVtEUVdcp4rw'
@@ -122,6 +122,19 @@ module ConsoleTweet
       tokens = {:default => { :token => @access_token.token, :secret => @access_token.secret }}
       save_tokens(tokens)
     end
+    
+    # Returns the 20 most recent @replies / mentions
+    def replies(*args)
+      load_default_token
+      return failtown("Unauthorized, re-run setup!") unless @client && @client.authorized?
+      # Only send since_id_replies to @client if it's not nil
+      mentions = since_id_replies ? @client.mentions(:since_id => since_id_replies) : @client.mentions
+      if mentions.any?
+        print_tweets(mentions)
+        # Save the last id as since_id
+        self.since_id_replies = mentions.last['id']
+      end
+    end
 
     # Display help section
     def help(*args)
@@ -130,9 +143,10 @@ module ConsoleTweet
       puts
       puts "#{CommandColor}twitter#{DefaultColor} View your timeline, since last view"
       puts "#{CommandColor}twitter setup#{DefaultColor} Setup your account"
-      puts "#{CommandColor}twitter status#{DefaultColor} Get your most recent status"
+      puts "#{CommandColor}twitter status#{DefaultColor} Get your most recent status" 
       puts "#{CommandColor}twitter tweet \"Hello World\"#{DefaultColor} Send out a tweet"
       puts "#{CommandColor}twitter show [username]#{DefaultColor} Show the timeline for a user"
+      puts "#{CommandColor}twitter replies#{DefaultColor} Get the most recent @replies and mentions" 
     end
 
     # Show error message with help below it
@@ -193,6 +207,18 @@ module ConsoleTweet
     def since_id=(id)
       tokens = load_default_token
       tokens[:since_id] = id
+      save_tokens(:default => tokens)
+    end
+    
+    # Getter for since_id_replies in ~/.twitter file
+    def since_id_replies
+      load_default_token[:since_id_replies]
+    end
+
+    # Setter for since_id_replies in ~/.twitter file
+    def since_id_replies=(id)
+      tokens = load_default_token
+      tokens[:since_id_replies] = id
       save_tokens(:default => tokens)
     end
 
