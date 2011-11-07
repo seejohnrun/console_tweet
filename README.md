@@ -52,6 +52,7 @@ Meant to be as simple as possible.
 
 * John Crepezzi <john.crepezzi@gmail.com>
 * Justin Campbell
+* José Manuel
 
 ---
 
