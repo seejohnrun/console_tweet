@@ -1,0 +1,88 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>Console Tweet</title>
+
+  <meta name="description" content="Console Twwet let you tweet from the console. Meant to be as simple as possible.">
+  <meta name="author" content="Jose M. Gilgado">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- CSS concatenated and minified via ant build script-->
+  <link rel="stylesheet" href="css/base.css"> 
+	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css"> 
+	<link rel="stylesheet" href="css/style.css"> 
+  <!-- end CSS-->
+
+  <script src="js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body>
+	<a href="http://github.com/seejohnrun/console_tweet">
+		<img id="github_ribbon" src="img/github_ribbon.png" alt="Github Ribbon" />
+	</a>
+	
+  <div class="container">
+    <h1>Console Tweet</h1>
+		<div id="caption">
+			<p>tweet from your console, because fancy interfaces are overrated</p>
+		</div>
+		
+		<div class="center">
+			<img id="console" src="img/terminal.png" alt="" />
+		</div>
+
+		
+		<h2>Getting started</h2>
+			<p>To get started install the gem:</p>
+		
+			<pre class="code">$ gem install console-tweet</pre>
+		
+			<p>And authenticate with Twitter:</p>
+		
+			<pre class="code">$ twitter setup</pre>
+		
+			<p>Type the pin shown on Twitter and that's it. Now you can use any available command.</p>
+
+		<h2>Commands</h2>
+			<p>Send a tweet:</p>
+			<pre class="code">$ twitter tweet 'Message'</pre> 
+			
+			<p>View your timeline since last view:</p>
+			<pre class="code">$ twitter</pre> 
+			
+			<p>View most recent replies and mentions since last view:</p>
+			<pre class="code">$ twitter replies</pre> 
+			
+			<p>View most recent status:</p>
+			<pre class="code">$ twitter status</pre> 
+			
+		
+		<h2>Credits</h2> 
+			<p>Original project by <a href="http://github.com/seejohnrun">John Crepezzi</a> with contributions of <a href="http://github.com/JustinCampbell">Justin Campbell</a> and <a href="http://github.com/josem">José M. Gilgado</a>.</p>
+			
+			<p>I've found the terminal icon <a href="http://www.cl.ly/97383667417ff35ac2e0">here</a>, but I haven't found the original author, so let me know if you do.</p> 
+			
+				<p>I've used the <a href="http://html5boilerplate.com/">HTML5 boilerplate</a> and the <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> toolkit.</p>
+		
+		<h2>License</h2> 
+			<p>
+				Copyright (c) 2010 John Crepezzi. <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.
+			</p>
+
+  </div> <!--! end of #container -->
+
+
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+  
+</body>
+</html>

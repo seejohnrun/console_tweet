@@ -1,0 +1,89 @@
+body {
+  background: url('../img/bg_body.png') repeat scroll top left;
+}
+
+h1 {
+  font-size: 80px;
+  text-align: center;
+}
+
+h2 {
+  -moz-box-sizing: border-box;
+  border-bottom: 3px solid #0E3F54;
+  padding: 4px;
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: justify;
+  margin-top: 9px;
+}
+
+pre {
+  border-radius: 5px 5px 5px 5px;
+  text-align: justify;
+  margin-bottom: 20px;
+}
+
+a:visited {
+  color: #0069D6;
+}
+
+div.center {
+  text-align: center;
+}
+
+div.container {
+  margin-top: 70px;
+  margin-bottom: 30px;
+}
+
+div.container p {
+  font-size: 17px;
+  padding-bottom: 14px;
+  margin-bottom: 0;
+}
+
+img#console {
+  padding-top: 30px;
+  padding-bottom: 12px;
+}
+
+#caption {
+  border-radius: 5px 5px 5px 5px;
+  padding-top: 8px;
+}
+
+#caption p {
+  font-size: 19px;
+  line-height: 29px;
+  margin: 0;
+  text-align: center;
+  padding:0;
+}
+
+#github_ribbon {
+  border: 0 none;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* CODE SECTIONS  */ 
+pre.code {
+  padding: 10px;
+  font-size: 13px;
+  font-family: Monaco, monospace;
+  background-color: #232323;
+  color: #F8F8F8;
+}
+
+pre.code::-moz-selection { 
+  background: #fff; 
+  color: #1b1b1b; 
+  text-shadow: none;
+}
+
+pre.code::selection { 
+  background: #fff; 
+  color: #1b1b1b; 
+  text-shadow: none; 
+}
