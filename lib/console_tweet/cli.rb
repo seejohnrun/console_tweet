@@ -83,7 +83,7 @@ module ConsoleTweet
         tweet_text = STDIN.gets.strip
       end
       return failtown("Empty Tweet") if tweet_text.empty?
-      return failtown("Tweet is too long!") if tweet_text.size > 140
+      return failtown("Tweet is too long!") if tweet_text.scan(/./mu).size > 140
       return failtown("Unauthorized, re-run setup!") unless @client && @client.authorized?
       # actually post it
       @client.update(tweet_text)
