@@ -48,6 +48,7 @@ module ConsoleTweet
       request_token = @client.request_token
       # ask the user to visit the auth url
       puts "To authenticate your client, visit the URL: #{request_token.authorize_url}"
+      open_link request_token.authorize_url
       # wait for the user to give us the PIN back
       print 'Enter PIN: '
       begin
@@ -228,6 +229,14 @@ module ConsoleTweet
       tweets.each do |tweet|
         puts "#{tweet['text']}\n#{NameColor}@#{tweet['user']['screen_name']} (#{tweet['user']['name']})#{DefaultColor}\n\n"
       end
+    end
+
+    def open_link url
+      exec "open #{url}" if is_mac?
+    end
+
+    def is_mac?
+      RUBY_PLATFORM.downcase.include?("darwin")
     end
 
   end
