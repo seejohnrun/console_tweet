@@ -1,5 +1,5 @@
-module ConsoleTweet 
-  
-  VERSION = '0.1.3'
+module ConsoleTweet
+
+  VERSION = '0.1.4'
 
 end
