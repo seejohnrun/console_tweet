@@ -232,7 +232,7 @@ module ConsoleTweet
     end
 
     def open_link url
-      exec "open #{url}" if is_mac?
+      system "open #{url}" if is_mac?
     end
 
     def is_mac?
