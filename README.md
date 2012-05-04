@@ -16,7 +16,7 @@ Meant to be as simple as possible.
     twitter setup
 
 You'll be prompted to open a browser to OAuth (opens automatically
-on Mac OS)
+on Mac OS) Twitter for console_tweet
 
 ---
 
