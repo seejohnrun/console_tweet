@@ -32,7 +32,7 @@ module ConsoleTweet
     # (Somewhat primitive, will be expanded) TODO
     def start
       ARGV.each do |arg|
-        unless arg.index('-') === 0 
+        unless arg.index('-') === 0
           @commands << arg
         end
       end
@@ -41,7 +41,7 @@ module ConsoleTweet
       return method_missing(method) unless AllowedMethods.include?(method)
       self.send(method, @commands[1..@commands.size])
     end
-  
+
     # Prompt the user for a PIN using a request token, and see if we can successfully authenticate them
     def get_access_token
       @client = TwitterOAuth::Client.new(:consumer_key => ConsumerKey, :consumer_secret => ConsumerSecret)
@@ -57,7 +57,7 @@ module ConsoleTweet
         false # Didn't get an access token
       end
     end
-    
+
     # Display the user's timeline
     def timeline(*args)
       load_default_token
@@ -70,7 +70,7 @@ module ConsoleTweet
         self.since_id = home_timeline.last['id']
       end
     end
-    
+
     # Send a tweet for the user
     def tweet(*args)
       load_default_token
@@ -123,7 +123,7 @@ module ConsoleTweet
       tokens = {:default => { :token => @access_token.token, :secret => @access_token.secret }}
       save_tokens(tokens)
     end
-    
+
     # Returns the 20 most recent @replies / mentions
     def replies(*args)
       load_default_token
@@ -198,7 +198,7 @@ module ConsoleTweet
     def self.get_input
       STDIN.gets.strip.chomp
     end
-    
+
     # Getter for since_id in ~/.twitter file
     def since_id
       load_default_token[:since_id]
@@ -210,7 +210,7 @@ module ConsoleTweet
       tokens[:since_id] = id
       save_tokens(:default => tokens)
     end
-    
+
     # Getter for since_id_replies in ~/.twitter file
     def since_id_replies
       load_default_token[:since_id_replies]

@@ -2,8 +2,8 @@ require 'rubygems'
 require File.dirname(__FILE__) + '/lib/console_tweet/version'
 
 spec = Gem::Specification.new do |s|
-  
-  s.name = 'console_tweet'  
+
+  s.name = 'console_tweet'
   s.author = 'John Crepezzi'
   s.add_development_dependency('rspec')
   s.add_dependency('twitter_oauth')
