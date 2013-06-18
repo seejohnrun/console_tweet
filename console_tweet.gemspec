@@ -6,7 +6,7 @@ spec = Gem::Specification.new do |s|
   s.name = 'console_tweet'
   s.author = 'John Crepezzi'
   s.add_development_dependency('rspec')
-  s.add_dependency('twitter_oauth')
+  s.add_dependency('twitter_oauth', '>= 0.4.9')
   s.description = 'CLI Twitter Client - with OAuth'
   s.email = 'john@crepezzi.com'
   s.executables = 'twitter'
